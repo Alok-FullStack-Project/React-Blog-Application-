@@ -29,6 +29,3 @@ It allows users to register, log in, create, edit, delete, and view blog posts.
 - Multer (for file uploads)
 - JWT (JSON Web Tokens)
 
----
-
-## 📂 Project Structure
