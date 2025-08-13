@@ -29,7 +29,7 @@ const SinglePost = () => {
 
       {post.image && (
         <img
-          src={`https://react-blog-application-6gp4.onrender.com${post.image}`}
+          src={`https://react-blog-application-ck97.onrender.com${post.image}`}
           alt={post.title}
           className="w-full h-auto rounded-lg shadow mb-4"
         />
