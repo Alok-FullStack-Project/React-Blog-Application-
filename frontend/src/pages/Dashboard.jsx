@@ -60,7 +60,7 @@ const Dashboard = () => {
           >
             {post.image && (
               <img
-                src={`http://localhost:5000${post.image}`}
+                src={`https://react-blog-application-ck97.onrender.com${post.image}`}
                 alt={post.title}
                 className="w-full h-48 object-cover"
               />
