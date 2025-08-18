@@ -60,13 +60,21 @@ const Dashboard = () => {
           >
             {post.image && (
               <img
-                src={`https://react-blog-application-ck97.onrender.com${post.image}`}
+                src={`https://react-blog-application-ck97.onrender.com${post.image}`} //https://react-blog-application-ck97.onrender.com
                 alt={post.title}
                 className="w-full h-48 object-cover"
               />
             )}
             <div className="p-4">
               <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
+
+              {post.category && (
+                <p className="text-sm text-gray-600">
+                  Category:{' '}
+                  <span className="font-medium">{post.category.name}</span>
+                </p>
+              )}
+
               <div className="flex gap-4 mt-4">
                 <Link
                   to={`/edit/${post._id}`}

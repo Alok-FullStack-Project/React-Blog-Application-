@@ -1,4 +1,3 @@
-// src/pages/EditPost.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import API from '../services/api';
@@ -7,22 +6,33 @@ import { toast } from 'react-toastify';
 const EditPost = () => {
   const { id } = useParams(); // post ID from URL
   const navigate = useNavigate();
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [category, setCategory] = useState(''); // selected category
+  const [categories, setCategories] = useState([]); // all categories
 
+  // Fetch post details + categories
   useEffect(() => {
-    // Fetch post details for editing
-    const fetchPost = async () => {
+    const fetchData = async () => {
       try {
-        const res = await API.get(`/posts/${id}`);
-        setTitle(res.data.title);
-        setContent(res.data.content);
+        const [postRes, catRes] = await Promise.all([
+          API.get(`/posts/${id}`),
+          API.get('/categories'),
+        ]);
+
+        console.log(postRes);
+
+        setTitle(postRes.data.title);
+        setContent(postRes.data.content);
+        setCategory(postRes.data.category || ''); // pre-select category
+        setCategories(catRes.data);
       } catch (err) {
-        toast.error('Error loading post');
+        toast.error('Error loading post or categories' + err);
       }
     };
-    fetchPost();
+    fetchData();
   }, [id]);
 
   const handleSubmit = async (e) => {
@@ -30,14 +40,13 @@ const EditPost = () => {
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
+    formData.append('category', category);
     if (image) formData.append('image', image);
-    try {
-      //  await API.put(`/posts/${id}`, { title, content });
 
+    try {
       await API.put(`/posts/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
-
       toast.success('Post updated successfully!');
       navigate('/dashboard');
     } catch (err) {
@@ -68,11 +77,28 @@ const EditPost = () => {
           onChange={(e) => setContent(e.target.value)}
           rows="6"
         />
+
+        <label className="block mb-2 font-semibold">Category</label>
+        <select
+          className="w-full border p-2 rounded mb-4"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          required
+        >
+          <option value="">-- Select a Category --</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+
+        <label className="block mb-2 font-semibold">Image</label>
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
-          className="w-full"
+          className="w-full mb-4"
         />
 
         <button

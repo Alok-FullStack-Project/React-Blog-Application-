@@ -3,13 +3,18 @@ import Post from '../models/Post.js';
 
 // Get all posts
 export const getAllPosts = async (req, res) => {
-  const posts = await Post.find().populate('author', 'username');
+  const posts = await Post.find()
+    .populate('author', 'username')
+    .populate('category', 'name') // populate only category name
+    .sort({ createdAt: -1 });
   res.json(posts);
 };
 
 // Get post by ID
 export const getPostById = async (req, res) => {
-  const post = await Post.findById(req.params.id).populate('author', 'name');
+  const post = await Post.findById(req.params.id)
+    .populate('author', 'name')
+    .populate('category', 'name'); // populate only category name;
   if (!post) return res.status(404).json({ message: 'Post not found' });
   res.json(post);
 };
@@ -17,7 +22,7 @@ export const getPostById = async (req, res) => {
 // Create a new post
 export const createPost = async (req, res) => {
   try {
-    const { title, content } = req.body;
+    const { title, content, category } = req.body;
     const image = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newPost = new Post({
@@ -25,6 +30,7 @@ export const createPost = async (req, res) => {
       content,
       image,
       author: req.user.id, // from auth middleware
+      category,
     });
 
     await newPost.save();
@@ -37,7 +43,7 @@ export const createPost = async (req, res) => {
 // Update post
 export const updatePost = async (req, res) => {
   const post = await Post.findById(req.params.id);
-  const { title, content } = req.body;
+  const { title, content, category } = req.body;
   const image = req.file ? `/uploads/${req.file.filename}` : null;
   if (image)
     if (!post) return res.status(404).json({ message: 'Post not found' });
@@ -50,6 +56,7 @@ export const updatePost = async (req, res) => {
       {
         title,
         content,
+        category,
         image,
       },
       {
@@ -62,6 +69,7 @@ export const updatePost = async (req, res) => {
       {
         title,
         content,
+        category,
       },
       {
         new: true,
@@ -85,6 +93,8 @@ export const deletePost = async (req, res) => {
 
 // Get posts by logged-in user
 export const getUserPosts = async (req, res) => {
-  const posts = await Post.find({ author: req.user.id });
+  const posts = await Post.find({ author: req.user.id })
+    .populate('category', 'name') // populate only category name
+    .sort({ createdAt: -1 });
   res.json(posts);
 };

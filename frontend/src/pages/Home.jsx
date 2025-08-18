@@ -38,13 +38,20 @@ const Home = () => {
             >
               {post.image && (
                 <img
-                  src={`https://react-blog-application-ck97.onrender.com${post.image}`}
+                  src={`https://react-blog-application-ck97.onrender.com${post.image}`} //
                   alt={post.title}
                   className="w-full h-48 object-cover"
                 />
               )}
               <div className="p-4">
                 <h2 className="text-lg font-semibold mb-2">{post.title}</h2>
+                {post.category && (
+                  <p className="text-sm text-gray-600">
+                    Category:{' '}
+                    <span className="font-medium">{post.category.name}</span>
+                  </p>
+                )}
+
                 <p className="text-gray-600 mb-4">
                   {post.content.substring(0, 100)}...
                 </p>

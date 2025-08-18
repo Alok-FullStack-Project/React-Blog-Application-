@@ -25,7 +25,19 @@ const SinglePost = () => {
   return (
     <div className="min-h-screen p-4 max-w-3xl mx-auto">
       <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-      <p className="text-gray-600 mb-4">By {post.author?.name || 'Unknown'}</p>
+      <p className="text-gray-600 mb-4 text-sm">
+        By <span className="font-medium">{post.author?.name || 'Unknown'}</span>
+        {post.category && (
+          <>
+            {' '}
+            | Category:{' '}
+            <span className="font-medium">{post.category.name}</span>
+          </>
+        )}
+        {post.createdAt && (
+          <> | {new Date(post.createdAt).toLocaleDateString()}</>
+        )}
+      </p>
 
       {post.image && (
         <img

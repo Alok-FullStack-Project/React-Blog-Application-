@@ -27,6 +27,11 @@ const Navbar = () => {
               Dashboard
             </Link>
           )}
+          {token && (
+            <Link to="/categories" className="hover:text-yellow-400">
+              Categories
+            </Link>
+          )}
           {!token ? (
             <>
               <Link to="/login" className="hover:text-yellow-400">

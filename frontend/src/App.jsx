@@ -10,6 +10,8 @@ import Navbar from './components/Navbar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from './components/Footer';
+import CreateCategory from './pages/CreateCategory';
+import CategoryList from './pages/CategoryList';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
             <Route path="/create" element={<CreatePost />} />
             <Route path="/edit/:id" element={<EditPost />} />
             <Route path="/posts/:id" element={<SinglePost />} />
+            <Route path="/category/create" element={<CreateCategory />} />
+            <Route path="/categories" element={<CategoryList />} />
           </Routes>
         </main>
         <ToastContainer />
