@@ -29,7 +29,6 @@ export const getCategories = async (req, res) => {
     const categories = await Category.find({ user: req.user.id }).sort({
       createdAt: -1,
     });
-    console.log(categories);
     res.json(categories);
   } catch (err) {
     res.status(500).json({ error: err.message });

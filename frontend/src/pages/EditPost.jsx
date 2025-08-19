@@ -22,11 +22,9 @@ const EditPost = () => {
           API.get('/categories'),
         ]);
 
-        console.log(postRes);
-
         setTitle(postRes.data.title);
         setContent(postRes.data.content);
-        setCategory(postRes.data.category || ''); // pre-select category
+        setCategory(postRes.data.category._id || ''); // pre-select category
         setCategories(catRes.data);
       } catch (err) {
         toast.error('Error loading post or categories' + err);
