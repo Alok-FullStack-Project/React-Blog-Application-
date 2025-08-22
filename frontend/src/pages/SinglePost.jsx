@@ -2,11 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import API from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const SinglePost = () => {
   const { id } = useParams();
   const [post, setPost] = useState(null);
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -53,23 +55,22 @@ const SinglePost = () => {
         <Link to="/" className="text-blue-500 hover:underline">
           Back to Home
         </Link>
-        {token &&
-          post.author?._id === JSON.parse(atob(token.split('.')[1])).id && (
-            <>
-              <Link
-                to={`/edit/${post._id}`}
-                className="text-yellow-500 hover:underline"
-              >
-                Edit
-              </Link>
-              <Link
-                to={`/delete/${post._id}`}
-                className="text-red-500 hover:underline"
-              >
-                Delete
-              </Link>
-            </>
-          )}
+        {user && post.author?._id === user.id && (
+          <>
+            <Link
+              to={`/edit/${post._id}`}
+              className="text-yellow-500 hover:underline"
+            >
+              Edit
+            </Link>
+            <Link
+              to={`/delete/${post._id}`}
+              className="text-red-500 hover:underline"
+            >
+              Delete
+            </Link>
+          </>
+        )}
       </div>
     </div>
   );

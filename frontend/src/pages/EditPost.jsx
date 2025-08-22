@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import API from '../services/api';
 import { toast } from 'react-toastify';
+import Button from '../components/common/Button';
 
 const EditPost = () => {
   const { id } = useParams(); // post ID from URL
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
@@ -16,6 +17,7 @@ const EditPost = () => {
   // Fetch post details + categories
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const [postRes, catRes] = await Promise.all([
           API.get(`/posts/${id}`),
@@ -28,6 +30,8 @@ const EditPost = () => {
         setCategories(catRes.data);
       } catch (err) {
         toast.error('Error loading post or categories' + err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -98,13 +102,9 @@ const EditPost = () => {
           onChange={(e) => setImage(e.target.files[0])}
           className="w-full mb-4"
         />
-
-        <button
-          type="submit"
-          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-        >
-          Update Post
-        </button>
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Updating...' : 'Update Post'}
+        </Button>
       </form>
     </div>
   );

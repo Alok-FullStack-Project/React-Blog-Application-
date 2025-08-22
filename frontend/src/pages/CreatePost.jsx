@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import API from '../services/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import InputField from '../components/common/InputField';
+import Button from '../components/common/Button';
 
 const CreatePost = () => {
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
@@ -13,6 +16,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData();
     formData.append('title', title);
@@ -28,6 +32,8 @@ const CreatePost = () => {
       navigate('/dashboard');
     } catch (error) {
       toast.error(error.response?.data?.message || 'Error creating post');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -63,14 +69,24 @@ const CreatePost = () => {
           ))}
         </select>
 
-        <input
+        {/* <input
           type="text"
           placeholder="Post Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className="w-full border p-2 rounded"
           required
+        /> */}
+
+        <InputField
+          label=""
+          type="text"
+          placeholder="Post Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
         />
+
         <textarea
           placeholder="Post Content"
           value={content}
@@ -86,12 +102,10 @@ const CreatePost = () => {
           onChange={(e) => setImage(e.target.files[0])}
           className="w-full"
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
-          Create Post
-        </button>
+        <Button type="submit" disabled={loading}>
+          {' '}
+          {loading ? 'Creating...' : ' Create Post'}
+        </Button>
       </form>
     </div>
   );

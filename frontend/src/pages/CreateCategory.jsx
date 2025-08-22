@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import API from '../services/api';
 import { toast } from 'react-toastify';
+import InputField from '../components/common/InputField';
+import Button from '../components/common/Button';
 
 const CreateCategory = () => {
   const [name, setName] = useState('');
@@ -24,6 +26,8 @@ const CreateCategory = () => {
     } catch (err) {
       //setMessage('❌ ' + err.message);
       toast.error(err.error);
+    } finally {
+      setLoading(false);
     }
 
     setLoading(false);
@@ -31,24 +35,29 @@ const CreateCategory = () => {
 
   return (
     <div className="p-4 max-w-xl mx-auto min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Create New Post</h1>
+      <h1 className="text-2xl font-bold mb-4">Create New Category</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
+        {/* <input
           type="text"
           placeholder="Post Title"
           value={name}
           onChange={(e) => setName(e.target.value)}
           className="w-full border p-2 rounded"
           required
+        />*/}
+
+        <InputField
+          label=""
+          type="text"
+          placeholder="Category Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-        >
+        <Button type="submit" disabled={loading}>
+          {' '}
           {loading ? 'Adding...' : 'Add'}
-        </button>
+        </Button>
       </form>
     </div>
   );
