@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Adjust if using a different port or domain
-  //baseURL: 'https://react-blog-application-ck97.onrender.com/api',
+  //baseURL: 'http://localhost:5000/api', // Adjust if using a different port or domain
+  baseURL: 'https://react-blog-application-ck97.onrender.com/api',
 });
 
 // Add auth token to headers if available
