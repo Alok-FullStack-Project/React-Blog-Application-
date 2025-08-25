@@ -5,7 +5,7 @@ import axios from 'axios';
 // Axios instance
 // ---------------------------
 const API = axios.create({
-  baseURL: 'https://react-blog-application-ck97.onrender.com/api',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
