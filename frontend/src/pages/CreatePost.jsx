@@ -68,16 +68,6 @@ const CreatePost = () => {
             </option>
           ))}
         </select>
-
-        {/* <input
-          type="text"
-          placeholder="Post Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full border p-2 rounded"
-          required
-        /> */}
-
         <InputField
           label=""
           type="text"
@@ -96,12 +86,22 @@ const CreatePost = () => {
           required
         />
 
-        <input
+        <InputField
+          label=""
+          type="file"
+          placeholder=""
+          value=""
+          onChange={(e) => setImage(e.target.files[0])}
+          required
+          className="w-full"
+        />
+
+        {/* <input
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
           className="w-full"
-        />
+        /> */}
         <Button type="submit" disabled={loading}>
           {' '}
           {loading ? 'Creating...' : ' Create Post'}

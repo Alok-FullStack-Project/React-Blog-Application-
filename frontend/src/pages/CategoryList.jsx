@@ -9,15 +9,13 @@ const CategoryList = () => {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [editingId, setEditingId] = useState(null);
-  const token = localStorage.getItem('token');
 
   // Fetch categories
   const fetchCategories = async () => {
+    setLoading(true);
     try {
-      const res = await API.get('categories', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setCategories(res.data);
+      const res = await API.get('categories');
+      setCategories(res);
     } catch (err) {
       setMessage('❌ ' + (err.response?.data?.error || err.message));
     } finally {
@@ -30,9 +28,7 @@ const CategoryList = () => {
     if (!window.confirm('Are you sure you want to delete this category?'))
       return;
     try {
-      await API.delete(`/categories/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/categories/${id}`);
       fetchCategories();
       toast.success('Category deleted');
     } catch (error) {

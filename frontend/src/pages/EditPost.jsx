@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import API from '../services/api';
 import { toast } from 'react-toastify';
 import Button from '../components/common/Button';
+import InputField from '../components/common/InputField';
 
 const EditPost = () => {
   const { id } = useParams(); // post ID from URL
@@ -64,15 +65,24 @@ const EditPost = () => {
       >
         <h2 className="text-2xl font-bold mb-4">Edit Post</h2>
 
-        <label className="block mb-2 font-semibold">Title</label>
+        {/*<label className="block mb-2 font-semibold">Title</label>
         <input
           type="text"
           className="w-full border p-2 rounded mb-4"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+        /> */}
+
+        <InputField
+          label="Title"
+          type="text"
+          placeholder="Post Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
         />
 
-        <label className="block mb-2 font-semibold">Content</label>
+        <label className="block mb-1 text-gray-700">Content</label>
         <textarea
           className="w-full border p-2 rounded mb-4"
           value={content}
@@ -80,7 +90,7 @@ const EditPost = () => {
           rows="6"
         />
 
-        <label className="block mb-2 font-semibold">Category</label>
+        <label className="block mb-1 text-gray-700">Category</label>
         <select
           className="w-full border p-2 rounded mb-4"
           value={category}
@@ -95,13 +105,24 @@ const EditPost = () => {
           ))}
         </select>
 
-        <label className="block mb-2 font-semibold">Image</label>
+        {/*} <label className="block mb-1 text-gray-700">Image</label>
         <input
           type="file"
           accept="image/*"
           onChange={(e) => setImage(e.target.files[0])}
           className="w-full mb-4"
+        />*/}
+
+        <InputField
+          label="Image"
+          type="file"
+          placeholder=""
+          value=""
+          onChange={(e) => setImage(e.target.files[0])}
+          required
+          className="w-full"
         />
+
         <Button type="submit" disabled={loading}>
           {loading ? 'Updating...' : 'Update Post'}
         </Button>

@@ -3,15 +3,17 @@ import API from '../services/api';
 import { Link } from 'react-router-dom';
 import PostList from '../components/PostList';
 import DashboardHeader from '../components/DashboardHeader';
+import { GiConsoleController } from 'react-icons/gi';
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchPosts = async () => {
+    setLoading(true);
     try {
       const res = await API.get('/posts');
-      setPosts(res.data);
+      setPosts(res);
     } catch (err) {
       console.error('Error fetching posts:', err);
     } finally {

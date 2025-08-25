@@ -10,16 +10,14 @@ import { useAuth } from '../context/AuthContext';
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
 
   const fetchUserPosts = async () => {
+    setLoading(true);
     try {
-      const res = await API.get('posts/user/posts', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setPosts(res.data);
+      const res = await API.get('posts/user/posts');
+      setPosts(res);
     } catch (error) {
       console.log(error);
       toast.error('Failed to load your posts');
@@ -30,9 +28,7 @@ const Dashboard = () => {
 
   const deletePost = async (id) => {
     try {
-      await API.delete(`/posts/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await API.delete(`/posts/${id}`);
       toast.success('Post deleted');
       fetchUserPosts();
     } catch (error) {
